@@ -350,10 +350,11 @@
 				for ( let indexLon = 0; indexLon < verticesCount + 1; indexLon++ ) {
 
 					const lat = latStart + indexLat * latDelta - indexLon * 3 ;
-					const lon = lonStart + indexLon * lonDelta;
+					const lon = lonStart + indexLon * lonDelta ;
 
 					vertices.push( latLonToXYZ( 50, lat, lon ) );
 
+					lonStart -= 0.0005;
 				}
 
 				const material = new THREE.LineBasicMaterial( { vertexColors: true } );
@@ -367,7 +368,6 @@
 			}
 
 			latStart -=0.001;
-			lonStart -= 0.2;
 
 		}
 
