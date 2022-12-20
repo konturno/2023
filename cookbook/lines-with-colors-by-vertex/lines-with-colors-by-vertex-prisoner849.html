@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<style>
+
+	body{
+				overflow: hidden;
+				margin: 0;
+			}
+</style>
+<body>
+
+	<script src="https://cdn.jsdelivr.net/npm/three@0.130.1/build/three.min.js"></script>
+	<script>
+
+		let scene = new THREE.Scene();
+			let camera = new THREE.PerspectiveCamera( 60, innerWidth / innerHeight, 1, 100 );
+			camera.position.set( 0, 0, 10 );
+			let renderer = new THREE.WebGLRenderer();
+			renderer.setSize( innerWidth, innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			let grid = new THREE.GridHelper( 10, 10, 0x7f7f7f, 0x444444 );
+			grid.rotation.x = - Math.PI * 0.5;
+			scene.add( grid );
+
+			const vertCount = 11;
+			let c = [];
+			let g = new THREE.BufferGeometry().setFromPoints( new Array( vertCount ).fill( 0 ).map( ( p, idx ) => {
+				c.push( idx / ( vertCount - 1 ), idx % 2, idx % 3 );
+				return new THREE.Vector3( ( ( vertCount - 1 ) * -0.5 ) + idx, ( Math.random() - 0.5 ) * 10, 0 );
+			} ) );
+			g.setAttribute( "color", new THREE.Float32BufferAttribute( c, 3 ) );
+
+			let m = new THREE.LineBasicMaterial( {
+				vertexColors: true,
+				onBeforeCompile: shader => {
+					shader.vertexShader = shader.vertexShader.replace(
+						`#include <color_pars_vertex>`,
+						`flat out vec3 vColor;`
+					);
+					console.log( shader.vertexShader );
+					shader.fragmentShader = shader.fragmentShader.replace(
+						`#include <color_pars_fragment>`,
+						`flat in vec3 vColor;`
+					);
+					console.log( shader.fragmentShader );
+				}
+			} );
+			let l = new THREE.Line( g, m );
+			scene.add( l );
+
+			renderer.setAnimationLoop( _ => {
+				renderer.render( scene, camera );
+			} )
+
+
+			</script>
+
+
+</body>
+</html>

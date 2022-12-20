@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		body {
+			overflow: hidden;
+			margin: 0;
+		}
+	</style>
+</head>
+
+<body>
+	<script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r145/build/three.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r145/examples/js/controls/OrbitControls.js"></script>
+	<script>
+
+		let scene = new THREE.Scene();
+		let camera = new THREE.PerspectiveCamera( 60, innerWidth / innerHeight, 1, 1000 );
+		camera.position.set( 10, -10, 100 );
+		let renderer = new THREE.WebGLRenderer();
+		renderer.setSize( innerWidth, innerHeight );
+		document.body.appendChild( renderer.domElement );
+
+		let controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+		geometry = new THREE.BoxGeometry( 50, 50, 50 );
+		material = new THREE.MeshNormalMaterial();
+		mesh = new THREE.Mesh( geometry, material );
+		scene.add( mesh );
+
+		renderer.setAnimationLoop( _ => {
+			renderer.render( scene, camera );
+			controls.update();
+		} )
+	</script>
+</body>
+
+</html>
