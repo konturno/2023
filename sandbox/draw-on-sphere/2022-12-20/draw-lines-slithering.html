@@ -6,8 +6,8 @@
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<meta name=description content="Real-time 3D in your browser with menu hiding">
 	<meta name=keywords content="Three.js,WebGL,JavaScript,GitHub,FOSS,3D,STEM">
-	<meta name="date" content="2022-12-20">
-	<title>ccw-ccapture-webm</title>
+	<meta name="date" content="2022-12-19">
+	<title>draw lines slithering</title>
 	<style>
 		/* Copyright 2022 Theo Armour. MIT License */
 
@@ -97,7 +97,6 @@
 	<script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r147/build/three.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r147/examples/js/controls/OrbitControls.js"></script>
 
-	<script src="ccw-ccapture-webm.js"></script>
 
 	<nav id=navMenu class=nav>
 
@@ -106,7 +105,7 @@
 			<summary>show&darr; || hide&uarr; </summary>
 
 			<h1>
-				<a href="https://github.com/konturno/2023/tree/main/cookbook/ccapture" target="_blank"
+				<a href="https://github.com/konturno/2023/tree/main/sandbox/draw-on-sphere" target="_blank"
 					title="source code on GitHub"><img
 						src=https://pushme-pullyou.github.io/tootoo-2022/assets/icons/mark-github.svg></a>
 				<a href="" id=aTitle title="Click this menu title to reset the model"></a>
@@ -120,6 +119,10 @@
 				</span>
 
 			</h1>
+
+			<!-- <p><button onclick=drawLinesAdding()>drawLinesAdding</button></p> -->
+
+			<!-- <p><button onclick=drawLine()>drawLine</button></p> -->
 
 			<div id=divMessage></div>
 
@@ -136,12 +139,23 @@
 	<script>
 
 		let renderer, camera, controls, scene;
-		let geometry, material, mesh, axesHelper;
+		let geometry, material, line, mesh, axesHelper;
+
+		const linesCount = 15;
+		const verticesCount = 30;
+		const latDelta = 5;
+		let latStart = 0;
+		const lonDelta = 10;
+		let lonStart = 0;
+
+		let shades;
+
+		let d1l;
 
 		init();
 		animate();
 
-		function init() {
+		function init () {
 
 			//aTitle.innerHTML = document.title = location.href.split( "/" ).pop();
 
@@ -157,7 +171,8 @@
 			camera.up.set( 0, 0, 1 );
 
 			scene = new THREE.Scene();
-			scene.background = new THREE.Color( 0xcce0ff );
+			//scene.background = new THREE.Color( 0xcce0ff );
+			scene.background = new THREE.Color( 0x000000 );
 			//scene.fog = new THREE.Fog( 0xcce0ff, 550, 800 );
 			scene.add( camera );
 
@@ -184,22 +199,197 @@
 			window.addEventListener( 'keyup', function () { controls.autoRotate = false; }, false );
 			renderer.domElement.addEventListener( 'click', function () { controls.autoRotate = false; }, false );
 
-			axesHelper = new THREE.AxesHelper( 50 );
-			scene.add( axesHelper );
+			//axesHelper = new THREE.AxesHelper( 50 );
+			//scene.add( axesHelper );
 
-			geometry = new THREE.BoxGeometry( 50, 50, 50 );
-			material = new THREE.MeshNormalMaterial();
-			mesh = new THREE.Mesh( geometry, material );
+			// geometry = new THREE.BoxGeometry( 50, 50, 50 );
+			// material = new THREE.MeshNormalMaterial();
+			// mesh = new THREE.Mesh( geometry, material );
+			// scene.add( mesh );
+
+			//drawLinesAdding();
+
+			drawLine();
+
+
+		}
+
+
+
+		function drawLinesAdding () {
+
+			scene.remove( mesh );
+
+			mesh = new THREE.Object3D();
+
 			scene.add( mesh );
 
-			CCW.init();
+			d1l = setInterval( drawOneLineAddingShifting, 500 );
+
+		}
+
+
+		function drawOneLineAddingShifting () {
+
+			const vertices = [];
+			colors = [];
+			delta = 13; //255 % verticesCount;
+
+			for ( let index = 0; index < verticesCount + 1; index++ ) {
+
+				const lat = -80 + index * 3 + indexLines * 1;
+				const lon = indexLines * 5 + index * 5;
+
+				vertices.push( latLonToXYZ( 50, lat, lon ) );
+
+				colors.push( index * delta, index * delta, index * delta );
+				//colors.push( 500, 500, 500);
+
+
+			}
+
+			const material = new THREE.LineBasicMaterial( { vertexColors: true } );
+
+			const geometry = new THREE.BufferGeometry().setFromPoints( vertices );
+			geometry.setAttribute( 'color', new THREE.Uint8BufferAttribute( colors, 3, true ) );
+
+			const line = new THREE.Line( geometry, material );
+
+			if ( mesh.children.length > indexLinesMax ) { mesh.children.shift(); }
+
+			mesh.add( line );
+
+			indexLines++;
+
+			//indexLines = indexLines > 20 ? 0 : indexLines;
 
 		}
 
 
 
 
-		function addInfoBox( text = "infoBoxHtm", id = "divInfo" ) {
+		function drawLine () {
+
+			//clearInterval( d1l );
+
+			//scene.remove( mesh );
+
+			mesh = new THREE.Object3D();
+
+			scene.add( mesh );
+
+			shades = getShades();
+
+			drawLines();
+
+			//d1l = setInterval( drawOneLine, 5 );
+
+		}
+
+
+		function getShades() {
+
+			const colors = [];
+			const delta = 255 / verticesCount;
+
+			for ( let index = 0; index < verticesCount + 1; index++ ) {
+
+				let color = Math.floor( 255 - index * delta );
+				color = color < 0 ? 0 : color;
+				colors.push( color, color, color )
+
+			}
+
+			return colors;
+
+		}
+
+
+		function drawLines () {
+
+			for (let indexLat = 0; indexLat < linesCount; indexLat++) {
+
+				const vertices = [];
+
+				for ( let indexLon = 0; indexLon < verticesCount + 1; indexLon++ ) {
+
+					const lat = latStart + indexLat * latDelta;
+					const lon = lonStart + indexLon * lonDelta;
+
+					vertices.push( latLonToXYZ( 50, lat, lon ) );
+
+				}
+
+				const material = new THREE.LineBasicMaterial( { vertexColors: true } );
+
+				const geometry = new THREE.BufferGeometry().setFromPoints( vertices );
+				geometry.setAttribute( 'color', new THREE.Uint8BufferAttribute( shades, 3, true ) );
+
+				line = new THREE.Line( geometry, material );
+
+				mesh.add( line );
+
+			}
+
+		}
+
+
+
+
+		function updateLines() {
+
+			for ( let indexLat = 0; indexLat < linesCount; indexLat++ ) {
+
+				line = mesh.children[ 0 ];
+
+				mesh.remove( line );
+				line.geometry.dispose();
+
+				const vertices = [];
+
+				for ( let indexLon = 0; indexLon < verticesCount + 1; indexLon++ ) {
+
+					const lat = latStart + indexLat * latDelta - indexLon * 3 ;
+					const lon = lonStart + indexLon * lonDelta ;
+
+					vertices.push( latLonToXYZ( 50, lat, lon ) );
+
+					lonStart -= 0.0005;
+				}
+
+				const material = new THREE.LineBasicMaterial( { vertexColors: true } );
+				const geometry = new THREE.BufferGeometry().setFromPoints( vertices );
+				geometry.setAttribute( 'color', new THREE.Uint8BufferAttribute( shades, 3, true ) );
+
+				line = new THREE.Line( geometry, material );
+
+				mesh.add( line );
+
+			}
+
+			latStart -=0.001;
+
+		}
+
+
+		function latLonToXYZ ( radius = 50, lat = 0, lon = 0 ) {
+
+			const d2r = Math.PI / 180;
+			const theta = ( lat - 90 ) * d2r;
+
+			const phi = ( lon - 180 ) * d2r;
+
+			const x = radius * Math.cos( phi ) * Math.sin( theta );
+			const y = radius * Math.sin( phi ) * Math.sin( theta );
+			let z = radius * Math.cos( theta );
+
+			return new THREE.Vector3( x, y, z );
+
+		}
+
+
+
+		function addInfoBox ( text = "infoBoxHtm", id = "divInfo" ) {
 			//console.log( { text } );
 			const htm = ``;
 
@@ -208,20 +398,7 @@
 		};
 
 
-
-		function requestFile( url, callback ) {
-
-			const xhr = new XMLHttpRequest();
-			xhr.open( 'GET', url, true );
-			xhr.onerror = ( xhr ) => console.log( 'error:', xhr );
-			//xhr.onprogress = ( xhr ) => console.log( 'bytes loaded:', xhr.loaded );
-			xhr.onload = ( xhr ) => callback( xhr.target.response );
-			xhr.send( null );
-
-		}
-
-
-		function setStats() {
+		function setStats () {
 
 			const script = document.head.appendChild( document.createElement( "script" ) );
 			script.onload = () => {
@@ -230,7 +407,7 @@
 				const sts = document.body.appendChild( stats.dom );
 				sts.style.left = "";
 				sts.style.right = "0px";
-				requestAnimationFrame( function loop() {
+				requestAnimationFrame( function loop () {
 
 					stats.update(); requestAnimationFrame( loop );
 
@@ -253,7 +430,7 @@
 		}
 
 
-		function onWindowResize() {
+		function onWindowResize () {
 
 			camera.aspect = window.innerWidth / window.innerHeight;
 			camera.updateProjectionMatrix();
@@ -265,13 +442,17 @@
 		}
 
 
-		function animate() {
+		function animate () {
 
 			requestAnimationFrame( animate );
 			renderer.render( scene, camera );
 			controls.update();
 
+			updateLines();
+
 		}
+
+
 
 	</script>
 

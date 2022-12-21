@@ -6,7 +6,7 @@
 _CCapture in a resizable window. One finger to rotate. Two to zoom._
 @@@-->
 
-### Full Screen: [CCapture]( https://ladybug.tools/spider-2022/xxxxx/ )
+### Full Screen: [CCapture]( https://github.com/konturno/2023/tree/main/cookbook/ccapture )
 
 
 ## Concept
@@ -14,6 +14,7 @@ _CCapture in a resizable window. One finger to rotate. Two to zoom._
 
 ## To Do / Wish List
 
+* Create as bookmarklet
 
 ## Issues
 
@@ -27,12 +28,13 @@ webm to mp4
 
 https://cloudconvert.com/webm-to-mp4
 
+
 ## Change Log
 
 
-### 123
+### 2022-12-20
 
-* First commit
+* First commit here at Konturno
 
 
 ***

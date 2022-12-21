@@ -26,13 +26,24 @@ CCW.init = function ( obj = {} ) {
 					Thanks to Jaume Sanchez:<a href="https://github.com/spite/ccapture.js/" target="_blank">ccapture.js</a>
 					& <a href="https://github.com/thenickdude/webm-writer-js" target="_blank">webm-writer-js</a>
 					</p>
+					<p>
+					Use: <a href="https://cloudconvert.com/webm-to-mp4" target="_blank">cloudconvert/webm-to-mp4</a>
+					</p>
 				</div>
 			</div>
 		</span>
 	</summary>
 
 	<div class="buttons">
+	<p>
+		setup screen: <button id="butInstagram">512x512</button> <button id="butSmartFrame">267x475</button>
+	</p>
+	<p>
+	<label title="Uncheck to stop rotation while recording">
+		<input type="checkbox" id="chkRotation" checked> Rotation file
+	</label>
 
+	</p>
 	<p>
 		<label title="Slide me">
 			Camera distance: <output id=outDistance>170</output>
@@ -40,24 +51,20 @@ CCW.init = function ( obj = {} ) {
 				min=1 max=400 value=170>
 		</label>
 	</p>
-		<p>
+	<p>
 		<label title="Slide me">
 			Duration in seconds: <output id=outDuration>8</output>
 			<input id=rngDuration type=range class=full-width oninput=outDuration.value=this.value;
 				min=1 max=40 value=8 >
 		</label>
 	</p>
-	<p>
-	setup screen: <button id="butInstagram">512x512</button> <button id="butSmartFrame">267x475</button>
-	</p>
+
 	<p>
 		<button id="butStart">Start recording to WebM</button>
 	</p>
 	<p>
 		<button id="butStop">Stop (or wait for time limit)</button>
 	</p>
-
-	<a href="https://cloudconvert.com/webm-to-mp4" target="_blank">cloudconvert/webm-to-mp4</a>
 
 	</div>
 
@@ -186,29 +193,34 @@ CCW.render = function () {
 	CCW.frames = CCW.frameRate * CCW.timeLimit;
 
 	delta = Math.PI * 2 / CCW.frames;
+	
+	if ( chkRotation.checked ) {
 
-	mesh.rotation.x += delta;
-	mesh.rotation.y += delta;
+		mesh.rotation.x += delta;
+		mesh.rotation.y += delta;
 
-	const distance = + rngDistance.value;
-	const center = scene.position;
 
-	// camera.position.x = center.x + Math.cos( CCW.progress * Math.PI * 3 ) * distance;
-	// camera.position.y = center.y + Math.sin( CCW.progress * Math.PI * 4 ) * distance;
-	// camera.position.z = center.z + Math.cos( CCW.progress * Math.PI * 7 ) * distance;
 
-	// camera.position.x = Math.sin( CCW.progress * 7 ) * distance;
-	// camera.position.y = Math.cos( CCW.progress * 5 ) * distance;
-	// camera.position.z = Math.cos( CCW.progress * 3 ) * distance;
+		// camera.position.x = center.x + Math.cos( CCW.progress * Math.PI * 3 ) * distance;
+		// camera.position.y = center.y + Math.sin( CCW.progress * Math.PI * 4 ) * distance;
+		// camera.position.z = center.z + Math.cos( CCW.progress * Math.PI * 7 ) * distance;
 
-	// camera.position.x = Math.sin( CCW.progress * 7 ) * distance;
-	// camera.position.y = Math.cos( CCW.progress * 5 ) * distance;
-	// camera.position.z = Math.cos( CCW.progress * 3 ) * distance;
+		// camera.position.x = Math.sin( CCW.progress * 7 ) * distance;
+		// camera.position.y = Math.cos( CCW.progress * 5 ) * distance;
+		// camera.position.z = Math.cos( CCW.progress * 3 ) * distance;
 
-	// x = Math.sin( i * delta * 7 ) * distance;
-	// y = Math.cos( i * delta * 5 ) * distance;
-	// z = Math.cos( i * delta * 3 ) * distance;
+		// camera.position.x = Math.sin( CCW.progress * 7 ) * distance;
+		// camera.position.y = Math.cos( CCW.progress * 5 ) * distance;
+		// camera.position.z = Math.cos( CCW.progress * 3 ) * distance;
 
+		// x = Math.sin( i * delta * 7 ) * distance;
+		// y = Math.cos( i * delta * 5 ) * distance;
+		// z = Math.cos( i * delta * 3 ) * distance;
+
+
+	}
+		const distance = + rngDistance.value;
+		const center = scene.position;
 	camera.lookAt( center );
 
 	//CCW.progress += 1 / ( CCW.frames );
