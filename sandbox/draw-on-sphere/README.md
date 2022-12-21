@@ -27,7 +27,8 @@ Inspired by this effort https://optikstudies.com/case_studies?series=0048 by Wan
 
 The script is plain and simple JavaScript calling the Three.js library hosted at https://Threess.org
 
-Check out the source code here: https://optikstudies.com/case_studies?series=0048
+Check out the source code here: https://konturno.github.io/2023/sandbox/draw-on-sphere/2022-12-20/draw-lines-slithering.html
+
 
 ## 2022-12-19
 
