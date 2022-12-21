@@ -6,7 +6,7 @@
 _CCapture in a resizable window. One finger to rotate. Two to zoom._
 @@@-->
 
-### Full Screen: [CCapture]( https://github.com/konturno/2023/tree/main/cookbook/ccapture )
+## Full Screen: [CCapture]( https://konturno.github.io/2023/cookbook/ccapture )
 
 
 ## Concept

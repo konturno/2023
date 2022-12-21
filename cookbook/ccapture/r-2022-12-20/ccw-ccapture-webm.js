@@ -193,13 +193,11 @@ CCW.render = function () {
 	CCW.frames = CCW.frameRate * CCW.timeLimit;
 
 	delta = Math.PI * 2 / CCW.frames;
-	
+
 	if ( chkRotation.checked ) {
 
 		mesh.rotation.x += delta;
 		mesh.rotation.y += delta;
-
-
 
 		// camera.position.x = center.x + Math.cos( CCW.progress * Math.PI * 3 ) * distance;
 		// camera.position.y = center.y + Math.sin( CCW.progress * Math.PI * 4 ) * distance;
@@ -219,8 +217,9 @@ CCW.render = function () {
 
 
 	}
-		const distance = + rngDistance.value;
-		const center = scene.position;
+	
+	//const distance = + rngDistance.value;
+	const center = scene.position;
 	camera.lookAt( center );
 
 	//CCW.progress += 1 / ( CCW.frames );
