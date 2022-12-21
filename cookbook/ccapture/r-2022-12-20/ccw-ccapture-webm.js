@@ -8,6 +8,9 @@ CCW.frameRate = 60;
 CCW.timeLimit = 8;
 CCW.progress = 0;
 
+CCW.userFunction = function(){}
+
+
 
 
 CCW.init = function ( obj = {} ) {
@@ -17,7 +20,7 @@ CCW.init = function ( obj = {} ) {
 	htm = `
 <details>
 
-	<summary>CCW CCapture WebM
+	<summary>CCW CCapture to WebM
 		<span class="info">
 			<img class=infoImg src="https://pushme-pullyou.github.io/tootoo-2022/assets/icons/noun_Information_585560.svg">
 			<div class="infoTooltip gmd-5">
@@ -217,7 +220,7 @@ CCW.render = function () {
 
 
 	}
-	
+
 	//const distance = + rngDistance.value;
 	const center = scene.position;
 	camera.lookAt( center );
@@ -227,6 +230,9 @@ CCW.render = function () {
 
 	renderer.render( scene, camera );
 	CCW.recorder.capture( renderer.domElement );
+
+	CCW.userFunction();
+
 	requestAnimationFrame( animate );
 
 };

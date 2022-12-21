@@ -1,9 +1,33 @@
 # Draw on Sphere Read Me
 
-The inspiration for this effort is from this effort: https://optikstudies.com created by Wang Yen Chi / Chris Wang. The particular reference is here: https://github.com/konturno/2023/tree/main/sandbox/draw-on-sphere
+The inspiration for this effort is from this effort: https://optikstudies.com created by Wang Yen Chi / Chris Wang. The particular reference is here: https://optikstudies.com/case_studies?series=0048
 
 * https://twitter.com/wangyenchi
 
+## 2022-12-20
+
+https://konturno.github.io/2023/sandbox/draw-on-sphere/2022-12-20/draw-lines-slithering.html
+
+Updated the CCapture script and added it here to allow the slithering script to record and save a video. Recorderd the first video and saved it to WEBM and MP4.
+
+Text for Instagram post
+
+Title: 2022-12-20 ~ Draw Lines Slithering
+
+At long last, I'm back at the digital drawing board.
+
+The idea is to draw any number of parallel lines "slithering" around a sphere (or ultimately any object) in a pleasing manner. The lines can be any length and the tails slowly fade out as the front tip moves forward.
+
+Further iterations may include
+
+1. Improved control over the paths taken by the lines
+2. Making a perfect loop so that there is no visual jump between the last frame and the first frame when videos replay automatically
+
+Inspired by this effort https://optikstudies.com/case_studies?series=0048 by Wang Yen Chi / Chris Wang and as always by: @dashdotdotdashdotdot
+
+The script is plain and simple JavaScript calling the Three.js library hosted at https://Threess.org
+
+Check out the source code here: https://optikstudies.com/case_studies?series=0048
 
 ## 2022-12-19
 
@@ -38,3 +62,7 @@ https://konturno.github.io/2023/sandbox/draw-on-sphere/2022-12-16/draw-on-grid.h
 
 https://konturno.github.io/2023/sandbox/draw-on-sphere/2022-12-15/draw-on-sphere-2.html
 
+
+***
+
+<center title="Hello! Click me to go up to the top" ><a class=aDingbat href=javascript:window.scrollTo(0,0);> ❦ </a></center>
