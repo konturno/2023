@@ -96,7 +96,7 @@
 <body>
 	<script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r147/build/three.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r147/examples/js/controls/OrbitControls.js"></script>
-
+	<script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r147/examples/js/libs/stats.min.js"></script>
 
 	<nav id=navMenu class=nav>
 
@@ -140,7 +140,7 @@
 		init();
 		animate();
 
-		function init() {
+		function init () {
 
 			//aTitle.innerHTML = document.title = location.href.split( "/" ).pop();
 
@@ -196,7 +196,7 @@
 
 
 
-		function addInfoBox( text = "infoBoxHtm", id = "divInfo" ) {
+		function addInfoBox ( text = "infoBoxHtm", id = "divInfo" ) {
 			//console.log( { text } );
 			const htm = ``;
 
@@ -206,7 +206,7 @@
 
 
 
-		function requestFile( url, callback ) {
+		function requestFile ( url, callback ) {
 
 			const xhr = new XMLHttpRequest();
 			xhr.open( 'GET', url, true );
@@ -218,7 +218,7 @@
 		}
 
 
-		function setStats() {
+		function setStats () {
 
 			const script = document.head.appendChild( document.createElement( "script" ) );
 			script.onload = () => {
@@ -227,7 +227,7 @@
 				const sts = document.body.appendChild( stats.dom );
 				sts.style.left = "";
 				sts.style.right = "0px";
-				requestAnimationFrame( function loop() {
+				requestAnimationFrame( function loop () {
 
 					stats.update(); requestAnimationFrame( loop );
 
@@ -250,7 +250,7 @@
 		}
 
 
-		function onWindowResize() {
+		function onWindowResize () {
 
 			camera.aspect = window.innerWidth / window.innerHeight;
 			camera.updateProjectionMatrix();
@@ -262,7 +262,7 @@
 		}
 
 
-		function animate() {
+		function animate () {
 
 			requestAnimationFrame( animate );
 			renderer.render( scene, camera );
