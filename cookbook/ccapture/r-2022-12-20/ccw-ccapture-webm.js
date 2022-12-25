@@ -4,8 +4,8 @@
 
 const CCW = {};
 
-CCW.frameRate = 60;
-CCW.timeLimit = 8;
+CCW.frameRateDefault = 60;
+CCW.timeLimit = 16;
 CCW.progress = 0;
 
 CCW.userFunction = function(){}
@@ -56,9 +56,9 @@ CCW.init = function ( obj = {} ) {
 	</p>
 	<p>
 		<label title="Slide me">
-			Duration in seconds: <output id=outDuration>8</output>
+			Duration in seconds: <output id=outDuration>41</output>
 			<input id=rngDuration type=range class=full-width oninput=outDuration.value=this.value;
-				min=1 max=40 value=8 >
+				min=1 max=60 value=41 >
 		</label>
 	</p>
 
@@ -164,10 +164,10 @@ CCW.setupScreen = function ( width = 512, height = 512 ) {
 	CCW.recorder = new CCapture( {
 		verbose: false,
 		display: true,
-		frameRate: CCW.frameRate,
+		frameRate: CCW.frameRateDefault,
 		quality: 100,
 		format: "webm",
-		timeLimit: CCW.timeLimit,
+		timeLimit: 41,  //CCW.timeLimit,
 		frameLimit: 0,
 		autoSaveTime: 0
 	} );
@@ -193,14 +193,14 @@ CCW.render = function () {
 
 	//progress goes from 0 to 1
 
-	CCW.frames = CCW.frameRate * CCW.timeLimit;
+	CCW.frames = 2500;  //CCW.frameRate * CCW.timeLimit;
 
-	delta = Math.PI * 2 / CCW.frames;
+	CCW.delta = Math.PI * 2 / CCW.frames;
 
 	if ( chkRotation.checked ) {
 
-		mesh.rotation.x += delta;
-		mesh.rotation.y += delta;
+		mesh.rotation.x += CCW.delta;
+		mesh.rotation.y += CCW.delta;
 
 		// camera.position.x = center.x + Math.cos( CCW.progress * Math.PI * 3 ) * distance;
 		// camera.position.y = center.y + Math.sin( CCW.progress * Math.PI * 4 ) * distance;
@@ -214,9 +214,9 @@ CCW.render = function () {
 		// camera.position.y = Math.cos( CCW.progress * 5 ) * distance;
 		// camera.position.z = Math.cos( CCW.progress * 3 ) * distance;
 
-		// x = Math.sin( i * delta * 7 ) * distance;
-		// y = Math.cos( i * delta * 5 ) * distance;
-		// z = Math.cos( i * delta * 3 ) * distance;
+		// x = Math.sin( i * CCW.delta * 7 ) * distance;
+		// y = Math.cos( i * CCW.delta * 5 ) * distance;
+		// z = Math.cos( i * CCW.delta * 3 ) * distance;
 
 
 	}
@@ -226,7 +226,7 @@ CCW.render = function () {
 	camera.lookAt( center );
 
 	//CCW.progress += 1 / ( CCW.frames );
-	CCW.progress += delta;
+	CCW.progress += CCW.delta;
 
 	renderer.render( scene, camera );
 	CCW.recorder.capture( renderer.domElement );

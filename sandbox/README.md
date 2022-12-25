@@ -4,6 +4,27 @@ The inspiration for this effort is from this effort: https://optikstudies.com cr
 
 * https://twitter.com/wangyenchi
 
+
+## 2022-12-24
+
+Text for Instagram post
+
+Title: 2022-12-23 ~ Draw Helix Segments
+
+The underlying geometry is a helix (3D spiral) wrapped around a torus (doughnut) with a vertical exaggeration.
+
+A number of lines are created that use the helix as a path. They are spaced apart at just the right distance so yhat the start and end points have exactly the same height.
+
+The effect is quite nice and relaxing, but the effect is not yet as "interesting" as the inspiration: https://optikstudies.com/case_studies?series=0048
+
+In terms of capturing a video from the running program, you want to capture a "perfect loop" where the last frame and the first frame are close enough so that when automatic replay is on there is no screen jerking and you feel that the progression is continuous. The current video is nearly there (but not quite).
+
+The script is plain and simple JavaScript calling the Three.js library hosted at https://Threes.org
+
+Check out the source code here: https://konturno.github.io/2023/sandbox/draw-helix-segments/2022-12-23/draw-helix-segments.html
+
+
+
 ## 2022-12-20
 
 https://konturno.github.io/2023/sandbox/draw-on-sphere/2022-12-20/draw-lines-slithering.html
@@ -25,7 +46,7 @@ Further iterations may include
 
 Inspired by this effort https://optikstudies.com/case_studies?series=0048 by Wang Yen Chi / Chris Wang and as always by: @dashdotdotdashdotdot
 
-The script is plain and simple JavaScript calling the Three.js library hosted at https://Threess.org
+The script is plain and simple JavaScript calling the Three.js library hosted at https://Threes.org
 
 Check out the source code here: https://konturno.github.io/2023/sandbox/draw-on-sphere/2022-12-20/draw-lines-slithering.html
 
