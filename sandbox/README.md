@@ -29,7 +29,7 @@ Check out the source code here: https://konturno.github.io/2023/sandbox/draw-hel
 
 https://konturno.github.io/2023/sandbox/draw-on-sphere/2022-12-20/draw-lines-slithering.html
 
-Updated the CCapture script and added it here to allow the slithering script to record and save a video. Recorderd the first video and saved it to WEBM and MP4.
+Updated the CCapture script and added it here to allow the slithering script to record and save a video. Recorded the first video and saved it to WEBM and MP4.
 
 Text for Instagram post
 
