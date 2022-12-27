@@ -12,10 +12,10 @@
 </head>
 
 <body>
-	<div id="info">
-		<a href="">minimum</a>
-		<div id=divMessage></div>
-	</div>
+		<div id="info">
+			<a href="">minimum</a>
+			<div id =divMessage ></div>
+		</div>
 	<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
 
 	<script type="importmap">
@@ -29,7 +29,7 @@
 
 
 
-	<script src="https://cdn.jsdelivr.net/gh/spite/ccapture.js@v1.0.9/build/CCapture.all.min.js" ;"></script>
+	<script src="https://cdn.jsdelivr.net/gh/spite/ccapture.js@v1.0.9/build/CCapture.all.min.js";"></script>
 	<script src="https://cdn.jsdelivr.net/gh/thenickdude/webm-writer-js@v0.3.0/src/WebMWriter.js"></script>
 
 	<script type="module">
@@ -61,10 +61,6 @@
 
 		const delta = ( tubularSegments / radialSegments ) * tube;
 
-		let vertices;
-
-		let strt;
-		let timeStart;
 		init();
 		animate();
 
@@ -98,7 +94,7 @@
 			renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 			controls = new OrbitControls( camera, renderer.domElement );
-			//controls.autoRotate = true;
+			controls.autoRotate = true;
 			controls.autoRotateSpeed = 2;
 			controls.enableDamping = true;
 			controls.enablePan = true;
@@ -142,8 +138,8 @@
 			shades = getShades();
 			//console.log( "", shades );
 
-			timeStart = performance.now();
-			//updateLines();
+			//timeStart = performance.now();
+			updateLines();
 
 			//setCCW();
 
@@ -173,7 +169,7 @@
 
 		}
 
-		function setCCW ( width = 512, height = 512 ) {
+		function setCCW ( width = 512, height = 512) {
 
 			camera.aspect = width / height;
 			camera.updateProjectionMatrix();
@@ -199,7 +195,6 @@
 			const material = new THREE.LineBasicMaterial( { vertexColors: true } );
 
 
-
 			for ( let h = 0; h < lineSegments; h++ ) {
 
 				if ( mesh.children.length > lineSegments ) {
@@ -211,7 +206,7 @@
 				}
 
 				const start = h * 1; // number of tubular segments to cover
-				vertices = [];
+				const vertices = [];
 
 				for ( let i = start; i < start + 1; i++ ) {
 
@@ -232,71 +227,31 @@
 
 				}
 
-				if ( h === 0 ) {
 
-					if ( frames === 2 ) {
-						strt = vertices.slice( 0, 3 );
-						console.log( "frames", frames, strt );
-						//debugger;
+				// const geometry = new THREE.BufferGeometry().setFromPoints( vertices );
+				// geometry.setAttribute( 'color', new THREE.Uint8BufferAttribute( shades, 3, true ) );
+				// const line = new THREE.Line( geometry, material );
+				// mesh.add( line );
 
-					} else {
+				const geometry = new LineGeometry();
+				geometry.setPositions( vertices );
+				geometry.setColors( shades );
 
-						let a = vertices.slice( 0, 3 );
+				let line = new Line2( geometry, matLine );
 
-						//if ( a.every( item => strt.includes( item ) ) && start.every( item => a.includes( item ) ) ) {
+				mesh.add( line );
 
-						//if ( vertices[ 0 ] > strt[ 0 ] - 0.005 ) {
-						let found = vertices.find( e => e > 57.995 );
+				count++;
 
-						if ( found && frames > 2) {
+			}
 
-							console.log( { frames }, found  );
-							console.log( "", ( performance.now() - timeStart ).toLocaleString() );
-debugger;
-						}
+			startJ++;
 
-					}
-				}
+			// if ( count % 62500 === 0 ) {
 
-			//}
-			// const geometry = new THREE.BufferGeometry().setFromPoints( vertices );
-			// geometry.setAttribute( 'color', new THREE.Uint8BufferAttribute( shades, 3, true ) );
-			// const line = new THREE.Line( geometry, material );
-			// mesh.add( line );
+			// 	//updateLines = () => { };
 
-			const geometry = new LineGeometry();
-			geometry.setPositions( vertices );
-			geometry.setColors( shades );
-
-
-			let line = new Line2( geometry, matLine );
-
-			mesh.add( line );
-			geometry.attributes.position.needsUpdate = true;
-			geometry.verticesNeedUpdate = true;
-			count++;
-
-		}
-
-		startJ++;
-
-		// if ( count % 62500 === 0 ) {
-
-		// 	//updateLines = () => { };
-
-		// 	console.log( "", ( performance.now() - timeStart ).toLocaleString() );
-		// if ( frames === 0 ) {
-
-		// 	//	console.log( "", mesh.children[ 0 ].geometry );
-		// }
-
-
-		if ( frames % 500 === 0 ) {
-
-			// 	const x = mesh.children[ 0 ].geometry.attributes.position.array[ 0 ];
-			console.log( {frames}, vertices[ 0 ] );
-			console.log( "", ( performance.now() - timeStart ).toLocaleString() );
-		}
+			// 	console.log( "", ( performance.now() - timeStart ).toLocaleString() );
 			// 	console.log( "frames", frames );
 			// 	frames = 0;
 			// 	timeStart = performance.now();

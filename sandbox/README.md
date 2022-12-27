@@ -4,6 +4,24 @@ The inspiration for this effort is from this effort: https://optikstudies.com cr
 
 * https://twitter.com/wangyenchi
 
+## 2022-12-25
+
+Title: 2022-12-25 ~ Draw Helix Segments
+
+The underlying geometry is a helix (3D spiral) wrapped around a torus (doughnut) with a vertical exaggeration.
+
+25 lines comprising 600 tiny segments with width are created that use the helix as a path. The lines  are spaced apart at just the right distance so that the start and end points have exactly the same height. The positions of the lines are updated 60 times a second.
+
+The effect is quite pleasing as it is. It's going to to be interesting to see if I can improve it in any way.
+
+BTW, the video is still not a "perfect loop". There is a jump when the video restarts at the beginning. I'm still working om this.
+
+The script is plain and simple JavaScript calling the Three.js library hosted at https://Threes.org
+
+Check out the source code here: https://konturno.github.io/2023/sandbox/draw-helix-segments/2022-12-26/draw-helix-segments.html
+
+
+#threejs #3dart #mathart #algorithmicart #webgl #motiongraphics #motiondesign
 
 ## 2022-12-24
 
@@ -13,7 +31,7 @@ Title: 2022-12-23 ~ Draw Helix Segments
 
 The underlying geometry is a helix (3D spiral) wrapped around a torus (doughnut) with a vertical exaggeration.
 
-A number of lines are created that use the helix as a path. They are spaced apart at just the right distance so yhat the start and end points have exactly the same height.
+A number of lines are created that use the helix as a path. They are spaced apart at just the right distance so that the start and end points have exactly the same height.
 
 The effect is quite nice and relaxing, but the effect is not yet as "interesting" as the inspiration: https://optikstudies.com/case_studies?series=0048
 
