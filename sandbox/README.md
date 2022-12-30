@@ -4,6 +4,8 @@ The inspiration for this effort is from this effort: https://optikstudies.com cr
 
 * https://twitter.com/wangyenchi
 
+
+
 ## 2022-12-25
 
 Title: 2022-12-25 ~ Draw Helix Segments
@@ -18,7 +20,7 @@ BTW, the video is still not a "perfect loop". There is a jump when the video res
 
 The script is plain and simple JavaScript calling the Three.js library hosted at https://Threes.org
 
-Check out the source code here: https://konturno.github.io/2023/sandbox/draw-helix-segments/2022-12-26/draw-helix-segments.html
+Check out the source code here: https://konturno.github.io/2023/sandbox/draw-helix-segments/2022-12-25/draw-helix-segments.html
 
 
 #threejs #3dart #mathart #algorithmicart #webgl #motiongraphics #motiondesign
