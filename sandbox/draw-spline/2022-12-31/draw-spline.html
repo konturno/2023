@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>draw spline 2022-12-31</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r148/examples/main.css">
+</head>
+
+<body>
+	<div id="info">
+		<a href="">draw spline 2022-12-31</a>
+
+	</div>
+
+	<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+	<script type="importmap">
+		{
+			"imports": {
+				"three": "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r148/build/three.module.js",
+				"three/addons/": "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r148/examples/jsm/"
+			}
+		}
+	</script>
+
+	<script type="module">
+
+		import * as THREE from 'three';
+
+		import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+		import { Line2 } from 'three/addons/lines/Line2.js';
+		import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
+		import { LineGeometry } from 'three/addons/lines/LineGeometry.js';
+		let container, controls;
+		let camera, scene, renderer;
+
+		let geometry, material, mesh, axesHelper;
+		let shades;
+		let matLine;
+		let capturer;
+
+		const radialSegments = 600;
+		const tubularSegments = 50;
+		const radius = 50;
+		const tube = 8;
+		let lineSegments = 25;
+		const lineLength = 200; //radialSegments * 0.75;
+		const scaleZ = 5;
+		let startJ = 0;
+		let count = 0;
+		let frames = 0;
+
+		const delta = ( tubularSegments / radialSegments ) * tube;
+
+		init();
+		animate();
+
+		function init () {
+
+			container = document.createElement( 'div' );
+			document.body.appendChild( container );
+
+			camera = new THREE.PerspectiveCamera( 60, innerWidth / innerHeight, 1, 1000 );
+			camera.position.set( 20, 20, 20 );
+
+			scene = new THREE.Scene();
+
+			renderer = new THREE.WebGLRenderer();
+			renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			renderer.outputEncoding = THREE.sRGBEncoding;
+			container.appendChild( renderer.domElement );
+
+			controls = new OrbitControls( camera, renderer.domElement );
+
+			// let geometry = new THREE.BoxGeometry( 50, 50, 50 );
+			// let material = new THREE.MeshNormalMaterial();
+			// let mesh = new THREE.Mesh( geometry, material );
+			// scene.add( mesh );
+
+			//console.log( "mesh", mesh );
+
+			const axesHelper = new THREE.AxesHelper( 50 );
+			scene.add( axesHelper );
+
+			matLine = new LineMaterial( {
+
+				color: 0xffffff,
+				linewidth: 0.01, // in world units with size attenuation, pixels otherwise
+				vertexColors: true,
+
+				//resolution:  // to be set by renderer, eventually
+				//dashed: false,
+				alphaToCoverage: true,
+
+			} );
+
+			shades = getShades();
+			console.log( "shades",shades );
+
+			drawSpline1();
+			//drawSpline2();
+
+			window.addEventListener( 'resize', resize );
+
+		}
+
+		function getShades () {
+
+			const colors = [];
+			const color = new THREE.Color();
+			//const delta = 255 / lineLength;
+
+			for ( let index = 0; index < lineLength; index++ ) {
+
+				// let color = Math.floor( 255 - index * delta );
+				// color = color < 0 ? 0 : color;
+				// colors.push( color, color, color );
+
+				color.setHSL( index / lineLength, 1.0, 0.5 );
+				colors.push( color.r, color.g, color.b );
+
+			}
+
+			return colors.reverse();
+
+		}
+
+
+		function drawSpline2 () {
+
+			scene.remove( mesh );
+			//mesh.geometry.dispose()
+			mesh = new THREE.Object3D();
+			scene.add( mesh );
+
+			let vertices = [];
+			const coordinates = [
+				10, 10, 0,
+				0, 0, 15,
+				10, -10, 0,
+				-10, -10, 0,
+				0, 0, -15,
+				- 10, 10, 0
+			];
+
+			for ( let i = 0; i < coordinates.length; i++ ) {
+
+				vertices.push( new THREE.Vector3( coordinates[ i++ ], coordinates[ i++ ], coordinates[ i ] ) );
+
+			}
+			console.log( "", vertices );
+
+			const curve = new THREE.CatmullRomCurve3( vertices );
+			curve.closed = true;
+
+			const points = curve.getPoints( 50 );
+
+
+			//const material = new THREE.LineBasicMaterial( { color: 0xff0000 } );
+			const material = new THREE.LineBasicMaterial( { vertexColors: true } );
+
+			const start = 1;
+			const scl = 0.1;
+
+			for ( let i = 0; i < 10; i++ ) {
+
+				// const geometry = new THREE.BufferGeometry().setFromPoints( points );
+				// geometry.scale( start + i * scl, start + i * scl, start + i * scl );
+
+				// const splineObject = new THREE.Line( geometry, material );
+
+				// mesh.add( splineObject );
+
+
+				const geometry = new LineGeometry();
+				geometry.setPositions( coordinates );
+				geometry.setColors( shades );
+
+				let line = new Line2( geometry, matLine );
+
+				mesh.add( line );
+			}
+
+		}
+
+
+
+		function drawSpline1 () {
+
+			let vertices = [];
+			const coordinates = [
+				10, 10, 0,
+				0, 0, 10,
+				10, -10, 0,
+				-10, -10, 0,
+				0, 0, -10,
+				- 10, 10, 0
+			];
+
+
+			for ( let i = 0; i < coordinates.length; i++ ) {
+
+				vertices.push( new THREE.Vector3( coordinates[ i++ ], coordinates[ i++ ], coordinates[ i ] ) );
+
+			}
+			console.log( "vertices", vertices );
+
+			const curve = new THREE.CatmullRomCurve3( vertices );
+			curve.closed = true;
+
+			const points = curve.getPoints( lineLength );
+			console.log( "points", points );
+
+			const geometry = new THREE.BufferGeometry().setFromPoints( points );
+			const material = new THREE.LineBasicMaterial( { color: 0xff0000 } );
+
+			let c2 = points.map( pt => [ pt.x, pt.y, pt.z ]);
+			c2 = c2.flatMap( num => num  )
+			console.log( "c2", c2 );
+
+			const geoLine = new LineGeometry();
+			geoLine.setPositions( c2 );
+			geoLine.setColors( shades );
+			console.log( "geo", geoLine );
+
+			//console.log( "", matLine );
+
+			const scl = 0.;
+
+			for ( let i = 0; i < 30; i++ ) {
+
+				// const splineObject = new THREE.Line( geometry, material );
+				// splineObject.position.x += 5 * Math.cos( Math.PI * i / 50 );
+				// splineObject.position.y += 5 * Math.sin( Math.PI * i / 50 );
+				// scene.add( splineObject );
+
+
+				let line = new Line2( geoLine, matLine );
+				line.position.x += 5 * Math.cos( Math.PI * i / 50 );
+				line.position.y += 5 * Math.sin( Math.PI * i / 50 );
+
+				scene.add( line );
+
+			}
+
+		}
+
+
+
+
+		function resize () {
+
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize( window.innerWidth, window.innerHeight );
+
+		}
+
+
+		function animate () {
+
+			controls.update();
+			renderer.render( scene, camera );
+
+			requestAnimationFrame( animate );
+
+		}
+	</script>
+
+</body>
+
+</html>

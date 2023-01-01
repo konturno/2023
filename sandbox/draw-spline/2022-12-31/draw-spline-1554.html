@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>modules minimum</title>
+	<title>draw spline 2022-12-31 1554</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r148/examples/main.css">
@@ -10,7 +10,7 @@
 
 <body>
 	<div id="info">
-		<a href="">modules minimum</a>
+		<a href="">draw spline 2022-12-31 1554</a>
 	</div>
 
 	<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
@@ -80,10 +80,12 @@
 				let z = 100 * Math.random() - 50;
 
 				vertices.push( new THREE.Vector3( x, y, z ) );
+
 			}
 
+console.log( vertices  );
 
-			for ( let j = 0; j < 55; j++ ) {
+			for ( let j = 0; j < 50; j++ ) {
 
 				const curve = new THREE.CatmullRomCurve3( vertices );
 
@@ -91,7 +93,8 @@
 
 				const points = curve.getPoints( 200 );
 
-				const geometry = new THREE.BufferGeometry().setFromPoints( points.slice( 20,80) );
+				//const geometry = new THREE.BufferGeometry().setFromPoints( points.slice( 20,80) );
+				const geometry = new THREE.BufferGeometry().setFromPoints( points );
 
 				const material = new THREE.LineBasicMaterial( { color: 0xff0000 } );
 
