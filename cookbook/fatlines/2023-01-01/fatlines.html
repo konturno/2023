@@ -65,26 +65,30 @@
 			// let mesh = new THREE.Mesh( geometry, material );
 			// scene.add( mesh );
 
+			const axesHelper = new THREE.AxesHelper( 50 );
+			scene.add( axesHelper );
+
+			const segments = 200;
 			const positions = [];
 			const colors = [];
 			const color = new THREE.Color();
-			const divisions = 20;
 
-			for ( let i = 0; i < divisions; i++ ) {
+			for ( let i = 0; i < segments; i++ ) {
 
 				positions.push( 100 * Math.random() - 50, 100 * Math.random() - 50, 100 * Math.random() - 50 );
 
-				color.setHSL( i / divisions, 1.0, 0.5 );
+				color.setHSL( i / segments, 1.0, 0.5 );
 				colors.push( color.r, color.g, color.b );
 
 			}
 
 			console.log( "", { positions } );
+
 			const geometry = new LineGeometry();
 			geometry.setPositions( positions );
 			geometry.setColors( colors );
 
-			let matLine = new LineMaterial( {
+			let lineMat = new LineMaterial( {
 
 				color: 0xffffff,
 				linewidth: 0.02, // in world units with size attenuation, pixels otherwise
@@ -96,8 +100,9 @@
 
 			} );
 
-			let line = new Line2( geometry, matLine );
+			let line = new Line2( geometry, lineMat );
 			//line.computeLineDistances();
+
 			scene.add( line );
 
 			console.log( "line", line );
@@ -105,6 +110,7 @@
 			window.addEventListener( 'resize', resize );
 
 		}
+
 
 
 		function resize () {

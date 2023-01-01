@@ -67,18 +67,54 @@ _Basic Three.js in a resizable window. One finger to rotate. Two to zoom._
 </p>
 ```
 
+### Add Axes Helper
+
+const axesHelper = new THREE.AxesHelper( 50 );
+scene.add( axesHelper );
+
+### Add BufferGeometry
+
+const geometry = new THREE.BufferGeometry();
+const positions = new Float32Array( [
+-1.0, -1.0,  1.0,
+1.0, -1.0,  1.0,
+1.0,  1.0,  1.0,
+
+1.0,  1.0,  1.0,
+-1.0,  1.0,  1.0,
+-1.0, -1.0,  1.0
+] );
+geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+const material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+const mesh = new THREE.Mesh( geometry, material );
+
+
+### Add Line
+
+const points = [];
+points.push( new THREE.Vector3( - 10, 0, 0 ) );
+points.push( new THREE.Vector3( 0, 10, 0 ) );
+points.push( new THREE.Vector3( 10, 0, 0 ) );
+
+const geometry = new THREE.BufferGeometry().setFromPoints( points );
+const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+
+const line = new THREE.Line( geometry, material );
+scene.add( line );
+
+
 ### Add Ground
 
 ``` js
 
 function addGround() {
 
-	const geometry = new THREE.PlaneBufferGeometry( 5000, 5000 );
-	geometry.applyMatrix4( new THREE.Matrix4().makeTranslation( position.x, position.y, position.z ) );
-	const material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa, side: 0 } );
-	ground = new THREE.Mesh( geometry, material );
-	ground.name = "ground";
-	scene.add( THR.ground );
+const geometry = new THREE.PlaneBufferGeometry( 5000, 5000 );
+geometry.applyMatrix4( new THREE.Matrix4().makeTranslation( position.x, position.y, position.z ) );
+const material = new THREE.MeshBasicMaterial( { color: 0xaaaaaa, side: 0 } );
+ground = new THREE.Mesh( geometry, material );
+ground.name = "ground";
+scene.add( THR.ground );
 
 };
 
@@ -95,6 +131,8 @@ function addGround() {
 // TorusGeometry( radius, tube, radialSegments, tubularSegments, arc )
 
 ```
+
+
 ## Concept
 
 The template I often use to get a minor project underway
