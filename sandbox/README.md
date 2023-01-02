@@ -1,8 +1,23 @@
-# Draw on Sphere Read Me
+# Sandbox Read Me
 
-The inspiration for this effort is from this effort: https://optikstudies.com created by Wang Yen Chi / Chris Wang. The particular reference is here: https://optikstudies.com/case_studies?series=0048
+One strong inspiration for this effort is from this effort: https://optikstudies.com created by Wang Yen Chi / Chris Wang. The particular reference is here: https://optikstudies.com/case_studies?series=0048
 
 * https://twitter.com/wangyenchi
+
+Another linear inspiration is dad\sh
+
+## 2023-01-01
+
+Title: 2023-01-01-draw-spline-slither
+
+The underlying geometry is a [Catmull–Rom spline]( https://en.wikipedia.org/wiki/Centripetal_Catmull%E2%80%93Rom_spline ) - which is a way of drawing very smooth curvey lines with very precise controls that people who are not rocket scientists can sometimes wrangle into some kind of control.
+
+And that's what's happening in the video here. Yours truly is making those lines behave in the way he told them to behave!
+
+Unlike the previous slither, I now feel that I have a good technical mastery over over the motion of the lines.
+
+You may also notice that the video loops quite well there is little noticeable jump between the last frame and the first frame.
+
 
 
 
