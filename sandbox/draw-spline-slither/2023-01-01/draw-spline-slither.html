@@ -10,7 +10,9 @@
 
 <body>
 	<div id="info">
-		<a href="">draw-spline-slither</a>
+		<a href="https://github.com/konturno/2023/tree/main/sandbox/draw-spline-slither" target="_blank">
+			<img src="https://konturno.github.io/2023/assets/icons/octicon.svg" >
+		</a> <a href="">draw-spline-slither</a>
 		<div id="divMsg"></div>
 	</div>
 
@@ -50,10 +52,10 @@
 		const positions = [];
 		const colors = [];
 
+		// camera
 		let theta = 0;
 		let radius = 40;
-		let delta = Math.PI * 2 / maxPoints;
-		console.log( "", delta );
+		let delta = Math.PI * 2 / ( maxPoints - 1);
 
 		init();
 		animate();

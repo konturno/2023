@@ -14,12 +14,18 @@ The underlying geometry is a [Catmull–Rom spline]( https://en.wikipedia.org/wi
 
 And that's what's happening in the video here. Yours truly is making those lines behave in the way he told them to behave!
 
-Unlike the previous slither, I now feel that I have a good technical mastery over over the motion of the lines.
+Unlike the previous slither, I now feel that I have a good technical mastery over over the motion of the lines. On the other hand the previous piece has more of a jellyfish or mantaray vibe about that is quite soothing
 
 You may also notice that the video loops quite well there is little noticeable jump between the last frame and the first frame.
 
+The script is plain and simple JavaScript calling the Three.js library hosted at https://Threes.org
 
+View the work here:
+https://konturno.github.io/2023/sandbox/draw-spline-slither/
+Source code here:
+https://github.com/konturno/2023/tree/main/sandbox/draw-spline-slither
 
+#threejs #3dart #mathart #algorithmicart #webgl #motiongraphics #motiondesign
 
 ## 2022-12-25
 
