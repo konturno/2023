@@ -4,7 +4,12 @@ One strong inspiration for this effort is from this effort: https://optikstudies
 
 * https://twitter.com/wangyenchi
 
-Another linear inspiration is dash
+Another linear inspiration is @dashdotdotdashdotdot
+
+* https://optikstudies.com/three/
+* https://optikstudies.com/about_bg/index.html
+* https://optikstudies.com/projects/case_studies/0048/index.html
+
 
 ## 2023-01-01
 
@@ -57,6 +62,7 @@ Check out the source code here: https://konturno.github.io/2023/sandbox/draw-hel
 
 
 #threejs #3dart #mathart #algorithmicart #webgl #motiongraphics #motiondesign
+
 
 ## 2022-12-24
 

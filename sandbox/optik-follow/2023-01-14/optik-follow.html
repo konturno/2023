@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>optic follow 2023-01-14</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r148/examples/main.css">
+</head>
+
+<body>
+	<div id="info">
+		<a href="">optic follow 2023-01-14</a>
+	</div>
+
+	<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+	<script type="importmap">
+		{
+			"imports": {
+				"three": "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r148/build/three.module.js",
+				"three/addons/": "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r148/examples/jsm/"
+			}
+		}
+	</script>
+
+	<script type="module">
+
+		import * as THREE from 'three';
+
+		import Stats from 'three/addons/libs/stats.module.js';
+		import { map, degrees_to_radians, random, clamp, shift } from '../custom_functions.js';
+		import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+		//import { makeNoise2D, makeNoise3D, makeNoise4D } from "open-simplex-noise";
+
+		let container, controls, stats;
+		let camera, scene, renderer;
+		let clock, time, clock_display;
+		let time_elapse = 0;
+		let time_pause = 0;
+		let frame_count;
+		let frame_percent;
+
+		let frame_total = 480;
+		let frame_rate = 60;
+
+		let objects = [];
+		let rotations = [];
+		let circles_count = 60;
+		let circles_radius = 100;
+		let radius = 120;
+		let length = 50;
+		let radians_min = 100;
+
+		let responsive = true;
+		let display = false;
+		let pause = false;
+		let recording = false;
+		let camera_rotate = false;
+
+		init();
+		animate();
+
+		function init () {
+
+			container = document.createElement( 'div' );
+			document.body.appendChild( container );
+
+			camera = new THREE.PerspectiveCamera( 60, innerWidth / innerHeight, 1, 1000 );
+			camera.position.set( 100, 100, 100 );
+
+			scene = new THREE.Scene();
+
+			renderer = new THREE.WebGLRenderer();
+			renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			renderer.outputEncoding = THREE.sRGBEncoding;
+			container.appendChild( renderer.domElement );
+
+			controls = new OrbitControls( camera, renderer.domElement );
+
+			stats = new Stats();
+			container.appendChild( stats.dom );
+
+			// let geometry = new THREE.BoxGeometry( 50, 50, 50 );
+			// let material = new THREE.MeshNormalMaterial();
+			// let mesh = new THREE.Mesh( geometry, material );
+			// scene.add( mesh );
+
+			// console.log( "mesh", mesh );
+
+			window.addEventListener( 'resize', resize );
+
+			setup();
+
+		}
+
+
+
+		function setup () {
+			//noise_2d = makeNoise2D( Date.now() );
+			//noise_3d = makeNoise3D( Date.now() );
+
+			objects = [];
+			rotations = [];
+			circles_count = random( 60, 120 );
+			circles_radius = 160;
+			radius = random( 20, 120 );
+			length = random( 40, 90 );
+
+			let angle_step = 2 * Math.PI / circles_count;
+
+			for ( let i = 0; i < circles_count; i++ ) {
+
+				const curve = new THREE.EllipseCurve(
+					0, 0,            // ax, aY
+					circles_radius, 100, //circles_radius,         // xRadius, yRadius
+					0, 2 * Math.PI,  // aStartAngle, aEndAngle
+					false,            // aClockwise
+					0                 // aRotation
+				);
+
+				let colors = [];
+				let division = 100;
+				const points = curve.getPoints( division );
+				const geometry = new THREE.BufferGeometry().setFromPoints( points );
+
+
+				// set colors for each vertex point
+				let size_test = 0;
+				for ( let i = 0; i < division + 1; i++ ) {
+
+					let test_valeu = map( i, length, division + 1, 0, 1 );
+					size_test = map( i, 0, division + 1, 0, 1 );
+					// let test_valeu = 1;
+					const color = new THREE.Color( test_valeu, test_valeu, test_valeu );
+					colors.push( color.r, color.g, color.b );
+
+				}
+
+				geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
+				// console.log(geometry);
+
+				const material = new THREE.LineBasicMaterial( {
+					color: 0xffffff,
+					vertexColors: true
+				} );
+
+				// const material = new MeshLineMaterial( {
+				// 	color: 0xffffff,
+				// 	lineWidth: 1,
+				// } );
+
+				// Create the final object to add to the scene
+				const ellipse = new THREE.Line( geometry, material );
+				//const line = new MeshLine();
+				// const line = new MeshLine();
+				//line.setGeometry( geometry, p => map( p, 0.5, 1, 0, 0.8 ) );
+				// line.setPoints(geometry, p => 1 - p);
+
+				//const ellipse = new THREE.Mesh( line, material );
+				// let random_degrees = random(0,0);
+				// ellipse.rotation.x = degrees_to_radians(90);
+				// ellipse.rotation.y = degrees_to_radians(random_degrees);
+				// rotations.push(degrees_to_radians(random(0, 360)));
+
+				let angle = angle_step * i;
+				ellipse.position.x = radius * Math.cos( angle );
+				ellipse.position.z = radius * Math.sin( angle );
+				// ellipse.rotation.y = degrees_to_radians(90);
+				// ellipse.rotation.set(0, 0, 0);
+				// ellipse.rotateY(0.1);
+				// ellipse.lookAt(0, 0, 0);
+				// ellipse.rotateY(Math.PI / 2);
+				ellipse.lookAt( 0, 0, 0 );
+				// ellipse.rotateY(Math.PI / 2);
+
+				const sign = Math.sign( ellipse.position.x );
+
+
+				// noise
+				//let increment = 0.001;
+				//let a = i * Math.PI * 2;
+				//let xoff = Math.cos( a ) * increment;
+				// let yoff = i;
+				// let zoff = Math.sin( a ) * increment;;
+				//let n = noise_3d( xoff, yoff, zoff );
+
+				// let rotate_angles = 0;
+				// let rotate_angles = map(n, -1, 1, 0, 40);
+				//let offset = map( n, -1, 1, 0, 10 );
+				let rotate_angles = map( i, 0, circles_count, 0, 360 );
+
+				// if(sign === -1){
+				// 	console.log('flip');
+				// 	// rotate_angles = -180;
+				// 	rotate_angles = map(i, 0, circles_count, -180 + offset / 2, 180 + offset / 2);
+				// 	ellipse.rotateZ(degrees_to_radians(180));
+				// }
+				// console.log(rotate_angles);
+				rotations.push( degrees_to_radians( rotate_angles ) );
+
+				// Math.sign
+				// The Math.sign() function is a mathematical function that returns the sign of a number, indicating whether the number is positive, negative, or zero. In JavaScript, the Math.sign() function returns one of the following values:
+
+				// ellipse.rotateY(Math.PI / 2);
+
+				// rotations.push(degrees_to_radians(random(0, 360)));
+				// let rotate_angles = map(i, 0, circles_count, 0, 360);
+
+				objects.push( ellipse );
+
+				scene.add( ellipse );
+
+
+			}
+
+			console.log( "rotations", rotations );
+		}
+
+
+
+		function timer () {
+
+			clock = renderer.info.render.frame / 200;
+			time = clock;
+
+			if ( !pause ) {
+				// play
+				time = clock - time_elapse;
+			} else {
+				// pause
+				time_elapse = clock - time_pause;
+				time = time_pause;
+			}
+
+			let time_to_frame = Math.floor( time * 200 );
+			frame_percent = ( time_to_frame % frame_total ) / frame_total;
+			frame_count = Math.round( frame_percent * frame_total );
+
+
+			if ( display === true ) clock_display.innerHTML = `
+		<div>Clock: `+ clock + `</div>
+		<div>Frame Rate: `+ frame_rate + `</div>
+		<div>Frame: `+ frame_total + `</div>
+		<div>Frame Count: `+ frame_count + `</div>
+		<div>Percent: `+ frame_percent + `</div>
+		<div>Pause: `+ pause + `</div>
+		`;
+
+		}
+
+		// CLOCK --- END
+
+
+		function resize () {
+
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize( window.innerWidth, window.innerHeight );
+
+		}
+
+
+
+
+		function render () {
+
+			// CLOCK
+			timer();
+
+			for ( let i = 0; i < circles_count; i++ ) {
+
+				objects[ i ].rotation.z = rotations[ i ] + map( frame_percent, 0, 1, 0, Math.PI * 2 );
+			}
+
+
+		}
+		function animate () {
+
+			controls.update();
+			renderer.render( scene, camera );
+
+			stats.update();
+			render();
+			requestAnimationFrame( animate );
+
+		}
+
+
+	</script>
+
+</body>
+
+</html>

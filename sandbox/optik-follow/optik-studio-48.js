@@ -60,11 +60,11 @@ function init(){
 		clock_display.className = 'clock';
 		document.body.appendChild(clock_display);
 	}
-	
+
     // CANVAS
     canvas = document.querySelector('canvas.webgl');
 
-    // SCENE 
+    // SCENE
     scene = new THREE.Scene();
 
     // RENDERER
@@ -79,12 +79,12 @@ function init(){
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     // CAMERA
-    camera = new THREE.OrthographicCamera( 
-		canvas_width / - 2, 
-		canvas_width / 2, 
-		canvas_height / 2, 
-		canvas_height / - 2, 
-		-1080, 1080 
+    camera = new THREE.OrthographicCamera(
+		canvas_width / - 2,
+		canvas_width / 2,
+		canvas_height / 2,
+		canvas_height / - 2,
+		-1080, 1080
 	);
 	camera.position.y = 1;
 	camera.position.z = 1;
@@ -104,22 +104,16 @@ function init(){
 	controls.enableDamping = true;
 	controls.update();
 
-    // RESIZE 
+    // RESIZE
 	if (responsive == true) {
 		window.addEventListener( 'resize', onWindowResize );
 	}
-	
+
 }
 
 // PROJECT SETUP --- START
 
-let objects = [];
-let rotations = [];
-let circles_count = 60;
-let circles_radius = 100;
-let radius = 120;
-let length = 50;
-let radians_min = 100;
+frame_percent
 
 
 // PROJECT SETUP --- END
@@ -151,8 +145,8 @@ function setup(){
 		let division = 100;
 		const points = curve.getPoints( division );
 		const geometry = new THREE.BufferGeometry().setFromPoints( points );
-		
-		
+
+
 		// set colors for each vertex point
 		let size_test = 0;
 		for(let i = 0; i < division + 1; i++){
@@ -167,23 +161,23 @@ function setup(){
 
 		geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
 		// console.log(geometry);
-		
-		// const material = new THREE.LineBasicMaterial( { 
+
+		// const material = new THREE.LineBasicMaterial( {
 		// 	color: 0xffffff,
 		// 	vertexColors: true
 		// } );
 
-		const material = new MeshLineMaterial( { 
+		const material = new MeshLineMaterial( {
 			color: 0xffffff,
 			lineWidth: 1,
 		} );
-		
+
 		// Create the final object to add to the scene
 		// const ellipse = new THREE.Line( geometry, material );
 		const line = new MeshLine();
 		// const line = new MeshLine();
 		line.setGeometry(geometry, p => map(p, 0.5, 1, 0, 0.8));
-		// line.setPoints(geometry, p => 1 - p); 
+		// line.setPoints(geometry, p => 1 - p);
 
 		const ellipse = new THREE.Mesh(line, material);
 		// let random_degrees = random(0,0);
@@ -203,7 +197,7 @@ function setup(){
 		// ellipse.rotateY(Math.PI / 2);
 
 		const sign = Math.sign(ellipse.position.x);
-		
+
 
 		// noise
 		let increment =  0.001;
@@ -212,7 +206,7 @@ function setup(){
 		let yoff = i;
 		let zoff = Math.sin(a) * increment;;
 		let n = noise_3d(xoff, yoff, zoff);
-		
+
 		// let rotate_angles = 0;
 		// let rotate_angles = map(n, -1, 1, 0, 40);
 		let offset = map(n, -1, 1, 0, 10);
@@ -226,27 +220,28 @@ function setup(){
 		// }
 		// console.log(rotate_angles);
 		rotations.push(degrees_to_radians(rotate_angles));
-		
+
 
 		// Math.sign
 		// The Math.sign() function is a mathematical function that returns the sign of a number, indicating whether the number is positive, negative, or zero. In JavaScript, the Math.sign() function returns one of the following values:
 
-		
 
-		
+
+
 
 		// ellipse.rotateY(Math.PI / 2);
 
 
 		// rotations.push(degrees_to_radians(random(0, 360)));
 		// let rotate_angles = map(i, 0, circles_count, 0, 360);
-		
-		
-		
+
+
+
 
 		objects.push(ellipse);
 
-		scene.add(ellipse);
+		scene.add( ellipse );
+
 	}
 
 }
@@ -262,8 +257,8 @@ function render(){
 
 		objects[i].rotation.z = rotations[i] + map(frame_percent, 0, 1, 0, Math.PI * 2);
 	}
-	
-	
+
+
 }
 
 function shift2(arr, direction, n) {
@@ -290,7 +285,7 @@ function animate(){
 			capturer.capture( renderer.domElement )
 		};
 	}
-	
+
 	// for recording --- start
 
 }
@@ -343,7 +338,7 @@ function key_press(e){
 
 	// key R
 	if(e.keyCode === 82) regenerateScene();
-	
+
 
 	// key P
 	if( e.keyCode === 80) pauseScene();
@@ -353,7 +348,7 @@ function key_press(e){
 	if(recording){
 		if(e.keyCode === 67) captureScene();
 	}
-	
+
 }
 
 function captureScene(){
@@ -361,7 +356,7 @@ function captureScene(){
 }
 
 function pauseScene(){
-	
+
 	if (pause === true) {
 		// play
 		pause = false;
