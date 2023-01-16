@@ -34,8 +34,7 @@
 		let container, controls, stats;
 		let camera, scene, renderer;
 
-		const colors = [];
-		const linesCount = 300;
+		const linesCount = 800;
 		const pointsCount = 100;
 		const sphereRadius = 20;
 		const tubeXRadius = 50;
@@ -58,7 +57,7 @@
 
 			scene = new THREE.Scene();
 
-			renderer = new THREE.WebGLRenderer( { antialias: true, alpha: false });
+			renderer = new THREE.WebGLRenderer( { antialias: true, alpha: false } );
 			renderer.setPixelRatio( window.devicePixelRatio );
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			renderer.outputEncoding = THREE.sRGBEncoding;
@@ -83,47 +82,47 @@
 
 
 		function setup () {
+			const colors = [];
+
+			for ( let i = 0; i < pointsCount; i++ ) {
+
+				let value = Math.sin( i * Math.PI * 2 / pointsCount );
+				const color = new THREE.Color( value, value, value );
+				colors.push( color.r, color.g, color.b );
+
+			}
+
+			const material = new THREE.LineBasicMaterial( {
+				color: 0xffffff,
+				vertexColors: true
+			} );
+
 
 			const curve = new THREE.EllipseCurve(
 				0, 0,                      // ax, aY
-				tubeXRadius, tubeYRadius,  //circles_radius,         // xRadius, yRadius
+				tubeXRadius, tubeYRadius,  // xRadius, yRadius
 				0, 2 * Math.PI,            // aStartAngle, aEndAngle
 				false,                     // aClockwise
 				0                          // aRotation
 			);
 
+			const points = curve.getPoints( pointsCount );
+			const geometry = new THREE.BufferGeometry().setFromPoints( points );
+			geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
+
 			const angleDelta = 2 * Math.PI / linesCount;
 
 			for ( let i = 0; i < linesCount; i++ ) {
 
-				const points = curve.getPoints( pointsCount );
-				const material = new THREE.LineBasicMaterial( {
-					color: 0xffffff,
-					vertexColors: true
-				} );
-
-				for ( let i = 0; i < pointsCount + 1; i++ ) {
-
-					let value = Math.sin( i * Math.PI * 2 / pointsCount );
-					const color = new THREE.Color( value, value, value );
-					colors.push( color.r, color.g, color.b );
-
-				}
-
-				const geometry = new THREE.BufferGeometry().setFromPoints( points );
-				geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
-
 				let angle = i * angleDelta;
 
-				const ellipse = new THREE.Line( geometry, material );
+				const ellipse = new THREE.Line( geometry.clone(), material );
 				ellipse.position.x = sphereRadius * Math.cos( angle );
 				ellipse.position.z = sphereRadius * Math.sin( angle );
 				ellipse.lookAt( 0, 0, 0 );
-
 				ellipse.rotation.z = angle;
 
 				object.add( ellipse );
-
 
 			}
 
@@ -145,7 +144,6 @@
 
 		function animate () {
 
-			//controls.update();
 			renderer.render( scene, camera );
 
 			stats.update();
