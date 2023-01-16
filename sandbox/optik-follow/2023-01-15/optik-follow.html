@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>optic follow 2023-01-15</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r148/examples/main.css">
+</head>
+
+<body>
+	<div id="info">
+		<a href="">optic follow 2023-01-15</a>
+	</div>
+
+	<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+	<script type="importmap">
+		{
+			"imports": {
+				"three": "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r148/build/three.module.js",
+				"three/addons/": "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r148/examples/jsm/"
+			}
+		}
+	</script>
+
+	<script type="module">
+
+		import * as THREE from 'three';
+
+		import Stats from 'three/addons/libs/stats.module.js';
+		import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+		let container, controls, stats;
+		let camera, scene, renderer;
+
+		const colors = [];
+		const rotations = [];
+		const linesCount = 300;
+		const pointsCount = 100;
+		const sphereRadius = 20;
+		const tubeXRadius = 50;
+		const tubeYRadius = 100;
+		const object = new THREE.Object3D();
+
+		let frameCount = 0;
+
+
+		init();
+		animate();
+
+		function init () {
+
+			container = document.createElement( 'div' );
+			document.body.appendChild( container );
+
+			camera = new THREE.PerspectiveCamera( 60, innerWidth / innerHeight, 1, 1000 );
+			camera.position.set( 100, 100, 100 );
+
+			scene = new THREE.Scene();
+
+			renderer = new THREE.WebGLRenderer( { antialias: true, alpha: false });
+			renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			renderer.outputEncoding = THREE.sRGBEncoding;
+			container.appendChild( renderer.domElement );
+
+			controls = new OrbitControls( camera, renderer.domElement );
+
+			stats = new Stats();
+			container.appendChild( stats.dom );
+
+			// let geometry = new THREE.BoxGeometry( 50, 50, 50 );
+			// let material = new THREE.MeshNormalMaterial();
+			// let mesh = new THREE.Mesh( geometry, material );
+			// scene.add( mesh );
+			// console.log( "mesh", mesh );
+
+			window.addEventListener( 'resize', resize );
+
+			setup();
+
+		}
+
+
+		function setup () {
+
+			const curve = new THREE.EllipseCurve(
+				0, 0,                      // ax, aY
+				tubeXRadius, tubeYRadius,  //circles_radius,         // xRadius, yRadius
+				0, 2 * Math.PI,            // aStartAngle, aEndAngle
+				false,                     // aClockwise
+				0                          // aRotation
+			);
+
+			const angleDelta = 2 * Math.PI / linesCount;
+
+			for ( let i = 0; i < linesCount; i++ ) {
+
+				const points = curve.getPoints( pointsCount );
+				const material = new THREE.LineBasicMaterial( {
+					color: 0xffffff,
+					vertexColors: true
+				} );
+
+				for ( let i = 0; i < pointsCount + 1; i++ ) {
+
+					let value = Math.sin( i * Math.PI * 2 / pointsCount );
+					const color = new THREE.Color( value, value, value );
+					colors.push( color.r, color.g, color.b );
+
+				}
+
+				const geometry = new THREE.BufferGeometry().setFromPoints( points );
+				geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
+
+				let angle = i * angleDelta;
+
+				const ellipse = new THREE.Line( geometry, material );
+				ellipse.position.x = sphereRadius * Math.cos( angle );
+				ellipse.position.z = sphereRadius * Math.sin( angle );
+				ellipse.lookAt( 0, 0, 0 );
+
+				ellipse.rotation.z = angle;
+
+				object.add( ellipse );
+
+
+			}
+
+			scene.add( object );
+
+		}
+
+
+
+		function resize () {
+
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize( window.innerWidth, window.innerHeight );
+
+		}
+
+
+		function animate () {
+
+			//controls.update();
+			renderer.render( scene, camera );
+
+			stats.update();
+			object.children.forEach( child => child.rotation.z += 0.005 );
+			requestAnimationFrame( animate );
+
+		}
+
+
+	</script>
+
+</body>
+
+</html>

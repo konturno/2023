@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>optic follow 2023-01-14</title>
+	<title>optic follow 2023-01-15</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r148/examples/main.css">
@@ -10,7 +10,7 @@
 
 <body>
 	<div id="info">
-		<a href="">optic follow 2023-01-14</a>
+		<a href="">optic follow 2023-01-15</a>
 	</div>
 
 	<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
@@ -39,7 +39,7 @@
 		let time_elapse = 0;
 		let time_pause = 0;
 		let frame_count;
-		let frame_percent;
+		//let frame_percent;
 
 		let frame_total = 480;
 		let frame_rate = 60;
@@ -58,6 +58,18 @@
 		let recording = false;
 		let camera_rotate = false;
 
+
+		const colors = [];
+		const linesCount = 500;
+		const pointsCount = 100;
+		let points;
+		const sphereRadius = 20;
+		const tubeXRadius = 50;
+		const tubeYRadius = 100;
+		let frame_percent = 0
+
+		const object = new THREE.Object3D();
+
 		init();
 		animate();
 
@@ -71,7 +83,7 @@
 
 			scene = new THREE.Scene();
 
-			renderer = new THREE.WebGLRenderer();
+			renderer = new THREE.WebGLRenderer( { antialias: true, alpha: false });
 			renderer.setPixelRatio( window.devicePixelRatio );
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			renderer.outputEncoding = THREE.sRGBEncoding;
@@ -91,10 +103,74 @@
 
 			window.addEventListener( 'resize', resize );
 
-			setup();
+			//setup();
+
+			setup2();
 
 		}
 
+
+
+
+
+		function setup2 () {
+
+			const curve = new THREE.EllipseCurve(
+				0, 0,                      // ax, aY
+				tubeXRadius, tubeYRadius,  //circles_radius,         // xRadius, yRadius
+				0, 2 * Math.PI,            // aStartAngle, aEndAngle
+				false,                     // aClockwise
+				0                          // aRotation
+			);
+
+			let angle_step = 2 * Math.PI / linesCount;
+
+
+			for ( let i = 0; i < linesCount; i++ ) {
+
+				points = curve.getPoints( pointsCount );
+				const geometry = new THREE.BufferGeometry().setFromPoints( points );
+
+				const material = new THREE.LineBasicMaterial( {
+					color: 0xffffff,
+					vertexColors: true
+				} );
+
+				// set colors for each vertex point
+				let size_test = 0;
+				for ( let i = 0; i < pointsCount + 1; i++ ) {
+
+					let test_value = map( i, length, pointsCount + 1, 0, 1 );
+					size_test = map( i, 0, pointsCount + 1, 0, 1 );
+					// let test_value = 1;
+					const color = new THREE.Color( test_value, test_value, test_value );
+					colors.push( color.r, color.g, color.b );
+
+				}
+
+				geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
+				// console.log(geometry);
+
+				const ellipse = new THREE.Line( geometry, material );
+
+				let angle = angle_step * i;
+				ellipse.position.x = sphereRadius * Math.cos( angle );
+				ellipse.position.z = sphereRadius * Math.sin( angle );
+				ellipse.lookAt( 0, 0, 0 );
+
+				//const sign = Math.sign( ellipse.position.x );
+
+				object.add( ellipse );
+
+				rotations.push( angle );
+
+			}
+
+			scene.add( object );
+			//console.log( "object", object );
+			//console.log( "rotations", rotations );
+
+		}
 
 
 		function setup () {
@@ -103,11 +179,10 @@
 
 			objects = [];
 			rotations = [];
-			circles_count = random( 60, 120 );
+			circles_count = 5; //random( 60, 120 );
 			circles_radius = 160;
 			radius = random( 20, 120 );
 			length = random( 40, 90 );
-			let colors = [];
 
 			let angle_step = 2 * Math.PI / circles_count;
 
@@ -115,13 +190,13 @@
 
 				const curve = new THREE.EllipseCurve(
 					0, 0,            // ax, aY
-					circles_radius, 100, //circles_radius,         // xRadius, yRadius
+					circles_radius, circles_radius, // xRadius, yRadius
 					0, 2 * Math.PI,  // aStartAngle, aEndAngle
 					false,            // aClockwise
 					0                 // aRotation
 				);
 
-
+				let colors = [];
 				let division = 100;
 				const points = curve.getPoints( division );
 				const geometry = new THREE.BufferGeometry().setFromPoints( points );
@@ -144,7 +219,7 @@
 
 				const material = new THREE.LineBasicMaterial( {
 					color: 0xffffff,
-					vertexColors: true
+					vertexColors: false
 				} );
 
 				// const material = new MeshLineMaterial( {
@@ -173,7 +248,7 @@
 				// ellipse.rotateY(0.1);
 				// ellipse.lookAt(0, 0, 0);
 				// ellipse.rotateY(Math.PI / 2);
-				ellipse.lookAt( 0, 0, 0 );
+				//ellipse.lookAt( 0, 0, 0 );
 				// ellipse.rotateY(Math.PI / 2);
 
 				//const sign = Math.sign( ellipse.position.x );
@@ -216,8 +291,7 @@
 
 			}
 
-			//console.log( "rotations", rotations );
-			console.log( "colors", colors );
+			console.log( "rotations", rotations );
 		}
 
 
@@ -272,20 +346,43 @@
 			// CLOCK
 			timer();
 
+
 			for ( let i = 0; i < circles_count; i++ ) {
 
 				objects[ i ].rotation.z = rotations[ i ] + map( frame_percent, 0, 1, 0, Math.PI * 2 );
+
+				console.log( "frame_percent", frame_percent );
+
 			}
 
 
 		}
+
+		function render2 () {
+
+			// CLOCK
+			//timer();
+
+			frame_percent++;
+
+			for ( let i = 0; i < linesCount; i++ ) {
+
+				object.children[ i ].rotation.z = rotations[ i ] + map( frame_percent / 1000, 0, 1, 0, Math.PI * 2 );
+
+			}
+
+			//console.log( "", object.children[ 0 ].rotation.z );
+
+			//console.log( "frame_percent", frame_percent );
+		}
+
 		function animate () {
 
 			controls.update();
 			renderer.render( scene, camera );
 
 			stats.update();
-			render();
+			render2();
 			requestAnimationFrame( animate );
 
 		}
