@@ -114,9 +114,9 @@
 				for ( let i = 0; i < object.children; i++ ) {
 
 					const child = object.children[ 0 ];
-					object.remove( child );
-					child.geometry.dispose();
 					child.material.dispose();
+					child.geometry.dispose();
+					object.remove( child );
 
 				}
 
