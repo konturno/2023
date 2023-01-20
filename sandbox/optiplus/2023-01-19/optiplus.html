@@ -68,10 +68,10 @@
 			color: "#ffffff",
 			"set random parameters": setRandom,
 			"set view 540x960": setCamera,
-			"set view 512x512": setCamera,
+			"set view 512x512": () => setCamera( 512, 512 ),
 			"render one frame": render,
-			"continuous rendering": false,
-			"camera controls": false,
+			"continuous rendering": true,
+			"camera controls": true,
 			"capture to webm": setCCW
 
 		};
@@ -79,7 +79,7 @@
 
 
 		init();
-		//animate();
+		animate();
 
 		function init () {
 
@@ -94,10 +94,10 @@
 
 			renderer = new THREE.WebGLRenderer( { antialias: true, alpha: false } );
 			renderer.setPixelRatio( window.devicePixelRatio );
-			//renderer.setSize( window.innerWidth, window.innerHeight );
+			renderer.setSize( window.innerWidth, window.innerHeight );
 
 
-			renderer.setSize( 512, 512 );
+			//renderer.setSize( 512, 512 );
 			renderer.outputEncoding = THREE.sRGBEncoding;
 			container.appendChild( renderer.domElement );
 
@@ -138,6 +138,8 @@
 
 			update();
 
+			setRandom()
+
 		}
 
 
@@ -174,7 +176,7 @@
 			setLines.setValue( 50 + Math.floor( 500 * Math.random() ) );
 			setSphere.setValue( 20 + Math.floor( 50 * Math.random() ) );
 			setTubeXRadius.setValue( 40 + Math.floor( 50 * Math.random() ) );
-			setEndAngle.setValue( 1 + Math.random() );
+			setEndAngle.setValue( 1 * Math.random() );
 			setColor.setValue( '#' + ( Math.random() * 0xFFFFFF << 0 ).toString( 16 ).padStart( 6, '0' ), );
 
 		}

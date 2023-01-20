@@ -82,7 +82,6 @@
 			stats = new Stats();
 			container.appendChild( stats.dom );
 
-
 			gui.add( params, 'text' ).onFinishChange( value => update( value ) );
 			gui.add( params, 'scale', 0, 10 ).step( 0.1 ).onChange( value => mesh.scale.z = value );
 			setRot = gui.add( params, 'rotation' ).onChange( () => controls.autoRotate = !controls.autoRotate );
@@ -109,8 +108,6 @@
 				'<i>GPU draw calls</i>: 1',
 				'<i>GPU memory</i>: 23'
 			].join( '<br/>' );
-
-
 
 			let geometry = new THREE.BoxGeometry( 50, 50, 50 );
 			let material = new THREE.MeshNormalMaterial();
