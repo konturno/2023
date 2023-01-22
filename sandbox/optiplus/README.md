@@ -20,8 +20,9 @@ Thanks to optikstudies.com for the inspiration!
 
 The script is plain and simple JavaScript calling the Three.js WebGL library hosted at https://Threes.org
 
-View the work here:
+Interact with the work here:
 https://konturno.github.io/2023/sandbox/optiplus/
+
 Source code here:
 https://github.com/konturno/2023/tree/main/sandbox/optiplus
 
@@ -29,7 +30,7 @@ https://github.com/konturno/2023/tree/main/sandbox/optiplus
 
 ## To Do / Wish List
 
-*Dat.gui Webm stuff into folder
+* Dat.gui Webm stuff into folder
 * thick lines
 * color schemes
 
@@ -40,6 +41,7 @@ https://github.com/konturno/2023/tree/main/sandbox/optiplus
 
 Another linear inspiration is @dashdotdotdashdotdot
 
+* https://cloudconvert.com/webm-to-mp4
 * https://optikstudies.com/case_studies?series=0048
 * https://twitter.com/wangyenchi
 * https://optikstudies.com/three/
