@@ -124,7 +124,7 @@
 			setColor = gui.addColor( params, 'color' ).onChange( value => { params.color = value; update(); } );
 			gui.add( params, "set random parameters" );
 			//setAnim = gui.add( params, "camera controls" ).onChange( animate );
-			gui.add( params, "continuous rendering" );//.onChange( animate );
+			setAnim = gui.add( params, "continuous rendering" );//.onChange( animate );
 			gui.add( params, "render one frame" );
 			gui.add( params, "set view 540x960" );
 			gui.add( params, "set view 512x512" );
@@ -133,7 +133,7 @@
 
 			window.addEventListener( 'resize', resize );
 			window.addEventListener( 'orientationchange', resize, false );
-			window.addEventListener( 'keyup', () => setAnim.setValue( params.animation = !params.animation ), false );
+			//window.addEventListener( 'keyup', () => setAnim.setValue( params.animation = !params.animation ), false );
 			//renderer.domElement.addEventListener( 'click', () => params.animation = !params.animation, false );
 
 			update();
@@ -212,7 +212,7 @@
 
 			frameCount = 0;
 
-			render();
+			//render();
 
 		}
 
@@ -221,8 +221,8 @@
 		function setRandom () {
 
 			setLines.setValue( 50 + Math.floor( 500 * Math.random() ) );
-			setSphere.setValue( 20 + Math.floor( 50 * Math.random() ) );
-			setTubeXRadius.setValue( 40 + Math.floor( 50 * Math.random() ) );
+			setSphere.setValue( 5 + Math.floor( 60 * Math.random() ) );
+			setTubeXRadius.setValue( 20 + Math.floor( 70 * Math.random() ) );
 			setEndAngle.setValue( 1 * Math.random() );
 			setColor.setValue( '#' + ( Math.random() * 0xFFFFFF << 0 ).toString( 16 ).padStart( 6, '0' ), );
 
@@ -333,9 +333,11 @@
 
 		}
 
-		// 2 * Math.PI / ( 30 * 0.0002 )
+
+
 		function render () {
 
+			setAnim.setValue( false )
 
 			object.children.forEach( child => child.rotation.z += delta );
 
