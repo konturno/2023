@@ -14,15 +14,32 @@ Another linear inspiration is @dashdotdotdashdotdot
 ## 2023-01-01
 
 <!--@@@
-<div class=iframe-resize ><iframe src=https://konturno.github.io/2023/sandbox/draw-spline-slither/ height=100% width=100% ></iframe></div>
-_"2023-01-01-draw-spline-slither" in a resizable window_
+<div class=iframe-resize ><iframe src=https://konturno.github.io/2023/sandbox/optiplus/ height=100% width=100% ></iframe></div>
+_"optiplus" in a resizable window_
 @@@-->
 
+## Full Screen: [optiplus]( https://konturno.github.io/2023/sandbox/optiplus/ )
 
+Text for Instagram
+
+Title: 2023-01-21 / optiplus
+
+One of my objectives is to be able to generate the maximum amount of visual complexity from the fewest mathematical operations. Optiplus hits a bullseye. Masses of wonderful visual shenanigans merely by rotating some well places arec around their Z-axes.
+
+Thanks to optikstudies.com for the inspiration!
+
+The script is plain and simple JavaScript calling the Three.js WebGL library hosted at https://Threes.org
+
+View the work here:
+https://konturno.github.io/2023/sandbox/optiplus/
+Source code here:
+https://github.com/konturno/2023/tree/main/sandbox/optiplus
+
+#threejs #3dart #mathart #algorithmicart #webgl #motiongraphics #motiondesign
 
 ## Full Screen: [2023-01-01-draw-spline-slither]( https://konturno.github.io/2023/sandbox/draw-spline-slither/ )
 
-Test for Instagram
+Text for Instagram
 
 Title: 2023-01-01-draw-spline-slither
 
